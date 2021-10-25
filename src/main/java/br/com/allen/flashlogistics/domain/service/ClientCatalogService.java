@@ -13,6 +13,10 @@ import lombok.AllArgsConstructor;
 public class ClientCatalogService {
 	private ClientRepository repository;
 	
+	public Client find(Long clientId) {
+		return repository.findById(clientId).orElseThrow(() -> new BusinessException("Client ID not found."));
+	}
+	
 	@Transactional
 	public Client save(Client client) {
 		boolean existentEmail = repository.findByEmail(client.getEmail())
