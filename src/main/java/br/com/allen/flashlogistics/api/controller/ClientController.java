@@ -1,7 +1,8 @@
-package br.com.allen.flashlogistics.controller;
+package br.com.allen.flashlogistics.api.controller;
 
 import java.util.List;
-import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,12 +40,12 @@ public class ClientController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Client addClient(@RequestBody Client client) {
+	public Client addClient(@Valid @RequestBody Client client) {
 		return clientRepository.save(client);
 	}
 	
 	@PutMapping("/{clientId}")
-	public ResponseEntity<Client> updateClient(@PathVariable Long clientId, @RequestBody Client client) {
+	public ResponseEntity<Client> updateClient(@PathVariable Long clientId,@Valid @RequestBody Client client) {
 		if(!clientRepository.existsById(clientId)) {
 			return ResponseEntity.notFound().build();
 		}
