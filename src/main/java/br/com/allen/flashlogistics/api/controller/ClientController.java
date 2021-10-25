@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.allen.flashlogistics.domain.model.Client;
 import br.com.allen.flashlogistics.domain.repository.ClientRepository;
+import br.com.allen.flashlogistics.domain.service.ClientCatalogService;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -25,6 +26,7 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/clients")
 public class ClientController {	
 	private ClientRepository clientRepository;
+	private ClientCatalogService clientService;
 	
 	@GetMapping
 	public List<Client> getAll() {
@@ -41,7 +43,7 @@ public class ClientController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Client addClient(@Valid @RequestBody Client client) {
-		return clientRepository.save(client);
+		return clientService.save(client);
 	}
 	
 	@PutMapping("/{clientId}")
@@ -50,7 +52,7 @@ public class ClientController {
 			return ResponseEntity.notFound().build();
 		}
 		client.setId(clientId);
-		client = clientRepository.save(client);
+		client = clientService.save(client);
 		return ResponseEntity.ok(client);
 	}
 	
@@ -59,7 +61,7 @@ public class ClientController {
 		if(!clientRepository.existsById(clientId)) {
 			return ResponseEntity.notFound().build();
 		}
-		clientRepository.deleteById(clientId);
+		clientService.delete(clientId);
 		return ResponseEntity.noContent().build();
 	}
 }

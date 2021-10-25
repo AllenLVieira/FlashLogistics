@@ -1,6 +1,7 @@
 package br.com.allen.flashlogistics.domain.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -11,4 +12,5 @@ import br.com.allen.flashlogistics.domain.model.Client;
 public interface ClientRepository extends JpaRepository<Client, Long>{
 	public List<Client> findByName(String name);
 	public List<Client> findByNameContainingIgnoreCase(String nome);
+	public Optional<Client> findByEmail(String email);
 }

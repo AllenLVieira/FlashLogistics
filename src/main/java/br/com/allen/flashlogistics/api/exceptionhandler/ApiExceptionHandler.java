@@ -13,9 +13,11 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import br.com.allen.flashlogistics.domain.exception.BusinessException;
 import lombok.AllArgsConstructor;
 
 @ControllerAdvice
@@ -38,5 +40,15 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
 		errors.setTitle("One or more fields are invalid. Please send correctly.");
 		errors.setFields(fields);
 		return handleExceptionInternal(ex, errors, headers, status, request);
+	}
+	
+	@ExceptionHandler(BusinessException.class)
+	public ResponseEntity<Object> handleBusinessException(BusinessException ex, WebRequest request){
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		Errors errors = new Errors();
+		errors.setStatus(status.value());
+		errors.setDateTime(LocalDateTime.now());
+		errors.setTitle(ex.getMessage());
+		return handleExceptionInternal(ex, errors, new HttpHeaders(), status, request);
 	}
 }
