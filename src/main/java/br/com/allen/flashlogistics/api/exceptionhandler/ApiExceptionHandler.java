@@ -18,6 +18,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import br.com.allen.flashlogistics.domain.exception.BusinessException;
+import br.com.allen.flashlogistics.domain.exception.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 
 @ControllerAdvice
@@ -48,6 +49,17 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
 		Errors errors = new Errors();
 		errors.setStatus(status.value());
 		errors.setTitle(ex.getMessage());
+		errors.setDateTime(OffsetDateTime.now());
+		return handleExceptionInternal(ex, errors, new HttpHeaders(), status, request);
+	}
+	
+	@ExceptionHandler(EntityNotFoundException.class)
+	public ResponseEntity<Object> handleEntityNotFound(EntityNotFoundException ex, WebRequest request){
+		HttpStatus status = HttpStatus.NOT_FOUND;
+		Errors errors = new Errors();
+		errors.setStatus(status.value());
+		errors.setTitle(ex.getMessage());
+		errors.setDateTime(OffsetDateTime.now());
 		return handleExceptionInternal(ex, errors, new HttpHeaders(), status, request);
 	}
 }
