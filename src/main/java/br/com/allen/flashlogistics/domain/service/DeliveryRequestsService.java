@@ -1,6 +1,6 @@
 package br.com.allen.flashlogistics.domain.service;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +22,7 @@ public class DeliveryRequestsService {
 		Client client = clientCatalogService.find(delivery.getClient().getId());
 		delivery.setClient(client);
 		delivery.setStatus(DeliveryStatus.PENDING);
-		delivery.setRequestDate(LocalDateTime.now());
+		delivery.setRequestDate(OffsetDateTime.now());
 		return deliveryRepository.save(delivery);
 	}
 }

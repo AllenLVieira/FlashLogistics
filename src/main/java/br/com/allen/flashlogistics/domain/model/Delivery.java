@@ -1,7 +1,7 @@
 package br.com.allen.flashlogistics.domain.model;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -53,8 +53,8 @@ public class Delivery {
 	private DeliveryStatus status;
 	
 	@JsonProperty(access = Access.READ_ONLY)
-	private LocalDateTime requestDate;
+	private OffsetDateTime requestDate;
 	
 	@JsonProperty(access = Access.READ_ONLY)
-	private LocalDateTime deliveryDate;
+	private OffsetDateTime deliveryDate;
 }

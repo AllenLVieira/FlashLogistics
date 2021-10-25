@@ -1,6 +1,6 @@
 package br.com.allen.flashlogistics.api.exceptionhandler;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +36,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
 			fields.add(new Errors.Fields(name, msg));
 		}
 		errors.setStatus(status.value());
-		errors.setDateTime(LocalDateTime.now());
+		errors.setDateTime(OffsetDateTime.now());
 		errors.setTitle("One or more fields are invalid. Please send correctly.");
 		errors.setFields(fields);
 		return handleExceptionInternal(ex, errors, headers, status, request);
@@ -47,7 +47,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		Errors errors = new Errors();
 		errors.setStatus(status.value());
-		errors.setDateTime(LocalDateTime.now());
 		errors.setTitle(ex.getMessage());
 		return handleExceptionInternal(ex, errors, new HttpHeaders(), status, request);
 	}
