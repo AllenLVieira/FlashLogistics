@@ -24,6 +24,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import br.com.allen.flashlogistics.domain.ValidationGroups;
+import br.com.allen.flashlogistics.domain.exception.BusinessException;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -72,5 +73,17 @@ public class Delivery {
 		ocurrence.setDelivery(this);
 		this.getOcurrences().add(ocurrence);
 		return ocurrence;
+	}
+
+	public void finish() {
+		if(!canBeFinished()) {
+			throw new BusinessException("Delivery cannot be finished.");
+		}
+		setStatus(DeliveryStatus.FINISHED);
+		setDeliveryDate(OffsetDateTime.now());
+	}
+	
+	public boolean canBeFinished() {
+		return DeliveryStatus.PENDING.equals(getStatus());
 	}
 }
